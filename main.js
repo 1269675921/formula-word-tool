@@ -92,6 +92,36 @@ imageInput.addEventListener("change", () => {
   addSelectedFiles(imageInput.files);
 });
 
+document.addEventListener("paste", async (event) => {
+  const items = event.clipboardData?.items || [];
+  const pastedImages = [];
+
+  for (const item of items) {
+    if (item.type && item.type.startsWith("image/")) {
+      const blob = item.getAsFile();
+
+      if (blob) {
+        const fileName = `paste_${new Date()
+          .toISOString()
+          .replaceAll(":", "-")
+          .replaceAll(".", "-")}.png`;
+
+        const file = new File([blob], fileName, {
+          type: blob.type || "image/png",
+        });
+
+        pastedImages.push(file);
+      }
+    }
+  }
+
+  if (pastedImages.length > 0) {
+    event.preventDefault();
+    addSelectedFiles(pastedImages);
+    alert("已粘贴图片，可以开始识别。");
+  }
+});
+
 function renderPreviews() {
   previewList.innerHTML = "";
 
