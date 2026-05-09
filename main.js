@@ -3,6 +3,7 @@ const API_BASE = "https://formula-ocr-worker.ymcss.workers.dev";
 const imageInput = document.getElementById("imageInput");
 const previewList = document.getElementById("previewList");
 const recognizeBtn = document.getElementById("recognizeBtn");
+const clearImagesBtn = document.getElementById("clearImagesBtn");
 const resultList = document.getElementById("resultList");
 const exportWordBtn = document.getElementById("exportWordBtn");
 
@@ -90,6 +91,14 @@ function addSelectedFiles(files) {
 
 imageInput.addEventListener("change", () => {
   addSelectedFiles(imageInput.files);
+});
+
+clearImagesBtn.addEventListener("click", () => {
+  selectedFiles = [];
+  currentResults = [];
+  imageInput.value = "";
+  renderPreviews();
+  renderResults();
 });
 
 document.addEventListener("paste", async (event) => {
