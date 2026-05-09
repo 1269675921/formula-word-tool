@@ -73,11 +73,23 @@ async function loadStatus() {
   }
 }
 
-imageInput.addEventListener("change", () => {
-  selectedFiles = Array.from(imageInput.files || []);
+function addSelectedFiles(files) {
+  const imageFiles = Array.from(files || []).filter((file) => {
+    return file && file.type && file.type.startsWith("image/");
+  });
+
+  if (!imageFiles.length) {
+    return;
+  }
+
+  selectedFiles = [...selectedFiles, ...imageFiles];
   currentResults = [];
   renderPreviews();
   renderResults();
+}
+
+imageInput.addEventListener("change", () => {
+  addSelectedFiles(imageInput.files);
 });
 
 function renderPreviews() {
