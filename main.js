@@ -212,6 +212,47 @@ resultList.addEventListener("input", (event) => {
   }
 });
 
+async function copyAsWordFormula(latex) {
+  const cleanLatex = String(latex || "")
+    .trim()
+    .replace(/^\\\[/, "")
+    .replace(/\\\]$/, "")
+    .replace(/^\$\$/, "")
+    .replace(/\$\$$/, "");
+
+  try {
+    const mathml = katex.renderToString(cleanLatex, {
+      throwOnError: false,
+      displayMode: true,
+      output: "mathml",
+    });
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+        </head>
+        <body>
+          ${mathml}
+        </body>
+      </html>
+    `;
+
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        "text/html": new Blob([html], { type: "text/html" }),
+        "text/plain": new Blob([cleanLatex], { type: "text/plain" }),
+      }),
+    ]);
+
+    alert("已复制为 Word 兼容公式。打开 Word 后直接粘贴试试；如果不行，再按 Alt + = 后粘贴。");
+  } catch (e) {
+    await navigator.clipboard.writeText(cleanLatex);
+    alert("已复制 LaTeX。打开 Word，按 Alt + =，选择 LaTeX 模式后粘贴。");
+  }
+}
+
 resultList.addEventListener("click", async (event) => {
   const btn = event.target.closest("button");
   if (!btn) return;
@@ -224,15 +265,13 @@ resultList.addEventListener("click", async (event) => {
     return;
   }
 
-  await navigator.clipboard.writeText(latex);
-
   if (btn.dataset.action === "copy-word") {
-    alert("已复制。打开 Word，按 Alt + =，然后粘贴。");
+    await copyAsWordFormula(latex);
   } else {
+    await navigator.clipboard.writeText(latex);
     alert("已复制 LaTeX");
   }
 });
-
 showVipBtn.addEventListener("click", () => {
   vipModal.classList.remove("hidden");
 });
