@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>图片公式转 Word - 可编辑公式识别工具</title>
+  <meta name="description" content="上传公式图片，自动识别为 LaTeX，可复制到 Word 公式编辑器中使用。适合老师出题、学生整理笔记。">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.45/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.45/dist/katex.min.js"></script>
+</head>
+
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="badge">老师出题 / 学生笔记 / 资料排版</div>
+      <h1>图片公式一键转 Word</h1>
+      <p>
+        上传教材、试卷、截图或手写公式图片，自动识别为 LaTeX。
+        可复制到 Word 公式编辑器中使用。
+      </p>
+    </header>
+
+    <main class="card">
+      <div class="status-box">
+        <div>
+          <strong id="statusText">会员状态：加载中...</strong>
+          <p id="usageText">今日次数：加载中...</p>
+        </div>
+        <button id="showVipBtn" class="small-btn">会员激活</button>
+      </div>
+
+      <section class="upload-box">
+        <h2>上传公式图片</h2>
+        <p>免费用户每天 3 次，会员支持批量识别。</p>
+        <input type="file" id="imageInput" accept="image/*" multiple />
+        <div id="previewList" class="preview-list"></div>
+      </section>
+
+      <button id="recognizeBtn" class="primary-btn">开始识别</button>
+
+      <section class="section-title-row">
+        <h2>识别结果</h2>
+        <button id="exportWordBtn" class="small-btn">导出 Word 整理版</button>
+      </section>
+
+      <div id="resultList" class="result-list empty">
+        暂无结果
+      </div>
+
+      <section class="tip-box">
+        <h2>怎么放进 Word？</h2>
+        <p>
+          点击“复制 Word 公式”，打开 Word，按 <strong>Alt + =</strong>，
+          然后粘贴即可。
+        </p>
+      </section>
+    </main>
+
+    <section class="price-card">
+      <h2>会员版</h2>
+      <p>免费用户每天识别 3 次。</p>
+      <p>会员用户支持不限次数、批量识别、导出 Word 整理版。</p>
+      <div class="price">9.9 元 / 月</div>
+      <p class="muted">第一版建议人工收款，付款后发激活码。</p>
+    </section>
+  </div>
+
+  <div id="vipModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>会员激活</h2>
+      <p class="muted">输入你收到的激活码。</p>
+      <input id="vipCodeInput" placeholder="请输入激活码，例如 VIP2026" />
+      <button id="activateBtn" class="primary-btn">立即激活</button>
+      <button id="closeVipBtn" class="small-btn full">关闭</button>
+      <p id="vipMsg"></p>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
